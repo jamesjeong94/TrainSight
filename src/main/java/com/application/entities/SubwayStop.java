@@ -8,8 +8,9 @@ public class SubwayStop {
     private double longitude;
     private String northDirection;
     private String southDirection;
+    private String direction;
 
-    public SubwayStop(String stopName, String borough, String[] connectedLines, double latitude, double longitude, String northDirection, String southDirection) {
+    public SubwayStop(String stopName, String borough, String[] connectedLines, double latitude, double longitude, String northDirection, String southDirection, String direction) {
         this.stopName = stopName;
         this.borough = borough;
         this.connectedLines = connectedLines;
@@ -17,5 +18,34 @@ public class SubwayStop {
         this.longitude = longitude;
         this.northDirection = northDirection;
         this.southDirection = southDirection;
+        this.direction = direction;
+    }
+
+    public String getStopName() {
+        return stopName;
+    }
+
+    public String getBorough() {
+        return borough;
+    }
+
+    public String[] getConnectedLines() {
+        return connectedLines;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getNorthDirection() {
+        return northDirection;
+    }
+
+    public String getSouthDirection() {
+        return southDirection;
     }
 }
