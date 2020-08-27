@@ -21,6 +21,7 @@ public class StopsUtil {
     private static String filePath = new File("").getAbsolutePath() + "/src/data/rawStopInfo.json";
 
     public static void main(String[] args) {
+        //manual testing
         ArrayList<SubwayStop> test = getStopsForLine("L");
         for(SubwayStop subwayStop: test) {
             System.out.println(subwayStop.getStopName());
