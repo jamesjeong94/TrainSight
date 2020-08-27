@@ -10,6 +10,8 @@ public class SubwayStop {
     private String southDirection;
     private String direction;
 
+
+
     public SubwayStop(String stopName, String borough, String[] connectedLines, double latitude, double longitude, String northDirection, String southDirection, String direction) {
         this.stopName = stopName;
         this.borough = borough;
@@ -47,5 +49,15 @@ public class SubwayStop {
 
     public String getSouthDirection() {
         return southDirection;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(stopName);
+        sb.append(" "+direction).append(" "+latitude).append(" "+longitude);
+        return sb.toString();
     }
 }

@@ -1,6 +1,7 @@
 package com.application.util;
 
 import com.application.entities.SubwayStop;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,12 +23,16 @@ public class StopsUtil {
 
     public static void main(String[] args) {
         //manual testing
-        ArrayList<SubwayStop> test = getStopsForLine("L");
+        ArrayList<SubwayStop> test = getStopsForLine("G");
         for(SubwayStop subwayStop: test) {
-            System.out.println(subwayStop.getStopName());
+            System.out.println(subwayStop);
         }
     }
 
+
+    /*
+    Gets stops for a specific subway line
+     */
     public static ArrayList<SubwayStop> getStopsForLine(String subwayLine) {
         ArrayList<SubwayStop> subwayStops = new ArrayList<>();
         try {
@@ -65,5 +70,46 @@ public class StopsUtil {
         return subwayStops;
     }
 
+    /*
+    Sorts the subway stops based on distance and previous
+     */
+    public static void sortStopsForLine(ArrayList<SubwayStop> subwayStops) {
 
+    }
+
+    /*
+    Gets the distance between two stations
+     */
+    public static double calculateDistance(SubwayStop stop1, SubwayStop stop2) {
+        double modX = stop1.getLatitude() - stop2.getLatitude();
+        double modY = stop1.getLongitude() - stop2.getLongitude();
+        double inner = Math.pow(modX, 2) + Math.pow(modY, 2);
+        return Math.pow(inner, 0.5);
+    }
+
+    /*
+    Get either endpoints of the subway line
+     */
+    public static SubwayStop getStartingStation (ArrayList<SubwayStop> subwayStops) {
+        for (SubwayStop subwayStop: subwayStops) {
+            if (subwayStop.getNorthDirection().isEmpty()) {
+                return subwayStop;
+            }
+        }
+        return subwayStops.get(0);
+    }
+
+    public static JSONArray convertObjArrayToArray(ArrayList<SubwayStop> list) throws JSONException {
+        JSONArray array = new JSONArray();
+        for (SubwayStop stop: list) {
+            JSONObject instance =  new JSONObject();
+            instance.put("Stop Name", stop.getStopName());
+            instance.put("Connected Lines", stop.getConnectedLines());
+            instance.put("Direction", stop.getDirection());
+            instance.put("Latitude", stop.getLatitude());
+            instance.put("Longitude", stop.getLongitude());
+            array.put(instance);
+        }
+        return array;
+    }
 }
