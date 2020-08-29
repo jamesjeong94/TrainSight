@@ -1,18 +1,25 @@
 package com.application.controllers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.stream.Stream;
+
+import com.google.transit.realtime.GtfsRealtime.FeedEntity;
+import com.google.transit.realtime.GtfsRealtime.FeedMessage;
 
 public class MTAController {
     static HashMap<String, String> feedUri;
@@ -60,8 +67,25 @@ public class MTAController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<String> response = restTemplate.exchange(realUri, HttpMethod.GET, entity, String.class);
-        System.out.println(response);
+        ResponseEntity<Resource> response = restTemplate.exchange(realUri, HttpMethod.GET, entity, Resource.class);
+        InputStream responseInputStream;
+
+        try {
+            try {
+                responseInputStream = response.getBody().getInputStream();
+                FeedMessage feed = FeedMessage.parseFrom(responseInputStream);
+                for (FeedEntity ent: feed.getEntityList()) {
+                    if (ent.hasTripUpdate())
+                        System.out.println(ent.getTripUpdate());
+                    }
+                } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+        } catch(Exception e) {
+
+        }
+
     }
 
     /*
