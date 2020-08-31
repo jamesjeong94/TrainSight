@@ -64,7 +64,6 @@ public class MTAModel {
         headers.set("x-api-key",_apiKey);
         HttpEntity entity = new HttpEntity(headers);
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println(_apiKey);
         ResponseEntity<Resource> response = restTemplate.exchange(realUri, HttpMethod.GET, entity, Resource.class);
         InputStream responseInputStream;
 
@@ -99,7 +98,6 @@ public class MTAModel {
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(results);
         return results;
 
     }

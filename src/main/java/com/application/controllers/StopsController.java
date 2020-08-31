@@ -11,14 +11,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.application.util.StopsUtil.getStopsForLine;
+import static com.application.util.StopsUtil.mapIdToStop;
 
 @RestController
 public class StopsController {
 
    @RequestMapping(value = "/stops", method = RequestMethod.GET)
    @ResponseBody
-   public ArrayList<SubwayStop> getSubwayStops(@RequestParam(value = "subwayline", defaultValue = "L")String subwayLine) throws JSONException {
-       return getStopsForLine(subwayLine);
+   public HashMap<String, Object> getSubwayStops(@RequestParam(value = "subwayline", defaultValue = "L")String subwayLine) throws JSONException {
+       HashMap<String, Object> response = new HashMap<>();
+       ArrayList<SubwayStop> stops = getStopsForLine(subwayLine);
+       response.put("stops", stops);
+       response.put("map",mapIdToStop(stops));
+       return response;
    }
 
    @RequestMapping(value="/stopsLive", method = RequestMethod.GET)
