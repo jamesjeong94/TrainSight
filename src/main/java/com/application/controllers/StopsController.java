@@ -1,6 +1,8 @@
 package com.application.controllers;
 
+import com.application.entities.CurrentVehiclePosition;
 import com.application.entities.SubwayStop;
+import com.google.transit.realtime.GtfsRealtime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +23,7 @@ public class StopsController {
 
    @RequestMapping(value="/stopsLive", method = RequestMethod.GET)
    @ResponseBody
-   public ArrayList<TripUpdateTicket> getLiveSubwayStops(@RequestParam(value = "subwayline",defaultValue = "L")String subwayLine)  {
-
+   public ArrayList<CurrentVehiclePosition> getLiveSubwayStops(@RequestParam(value = "subwayline",defaultValue = "7")String subwayLine)  {
+       return com.application.models.MTAModel.getGTFS(subwayLine);
    }
-
 }

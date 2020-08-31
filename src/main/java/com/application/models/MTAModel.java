@@ -1,8 +1,6 @@
-package com.application.controllers;
+package com.application.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
+import com.application.entities.CurrentVehiclePosition;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -12,8 +10,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -22,7 +20,7 @@ import com.google.transit.realtime.GtfsRealtime.FeedEntity;
 import com.google.transit.realtime.GtfsRealtime.FeedMessage;
 import com.google.transit.realtime.GtfsRealtime.VehiclePosition;
 
-public class MTAController {
+public class MTAModel {
     static HashMap<String, String> feedUri;
 
     /*
@@ -55,7 +53,7 @@ public class MTAController {
         feedUri.put("7",__7);
 
     }
-    public static void getGTFS(String subwayLine){
+    public static ArrayList<CurrentVehiclePosition> getGTFS(String subwayLine){
         String uri = feedUri.get(subwayLine);
         UriComponents uriComponents = UriComponentsBuilder.fromUriString(uri).build(true);
         URI realUri = uriComponents.toUri();
@@ -65,29 +63,44 @@ public class MTAController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-api-key",_apiKey);
         HttpEntity entity = new HttpEntity(headers);
-
         RestTemplate restTemplate = new RestTemplate();
-
+        System.out.println(_apiKey);
         ResponseEntity<Resource> response = restTemplate.exchange(realUri, HttpMethod.GET, entity, Resource.class);
         InputStream responseInputStream;
 
+        ArrayList<CurrentVehiclePosition> results = new ArrayList<>();
+
         try {
             try {
+
                 responseInputStream = response.getBody().getInputStream();
                 FeedMessage feed = FeedMessage.parseFrom(responseInputStream);
-                System.out.println(feed.getEntityList());
-//                for (FeedEntity ent: feed.getEntityList()) {
-//                    if (ent.hasTripUpdate()) {
-//                        System.out.println(ent.getTripUpdate());
-//                    }
-//                }
+
+                for (FeedEntity ent: feed.getEntityList()) {
+                    if (ent.hasVehicle()) {
+
+                        VehiclePosition instance = ent.getVehicle();
+                        int currentStopSequence = instance.getCurrentStopSequence();
+                        int timeStamp = (int) instance.getTimestamp();
+                        String stopID = instance.getStopId();
+
+                        if (currentStopSequence != 0 && timeStamp != 0) {
+                            String tripId = instance.getTrip().getTripId();
+                            String direction = tripId.contains("N") ? "N" : "S";
+                            CurrentVehiclePosition vpInstance = new CurrentVehiclePosition(timeStamp, stopID, currentStopSequence, direction);
+                            results.add(vpInstance);
+                        }
+                    }
+                }
                 } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
 
         } catch(Exception e) {
-
+            System.out.println(e.getMessage());
         }
+        System.out.println(results);
+        return results;
 
     }
 
@@ -95,6 +108,6 @@ public class MTAController {
     Manual testing
      */
     public static void main(String[] args) {
-        getGTFS("N");
+        getGTFS("7");
     }
 }
