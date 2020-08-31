@@ -1,0 +1,63 @@
+$BLUE: #0039a6;
+$ORANGE: #ff6319;
+$LIME: #6cbe45;
+$BROWN: #996633;
+$GREY: #a7a8ac;
+$YELLOW: #fccc0a;
+$RED: #ee352e;
+$GREEN: #00933c;
+$PURPLE: #b933ad;
+
+.blue {
+  background-color: $BLUE;
+}
+
+.orange {
+  background-color: $ORANGE;
+}
+
+.lime {
+  background-color: $LIME;
+}
+
+.brown {
+  background-color: $BROWN;
+}
+
+.grey {
+  background-color: $GREY;
+}
+
+.yellow {
+  background-color: $YELLOW;
+}
+
+.red {
+  background-color: $RED;
+}
+
+.green {
+  background-color: $GREEN;
+}
+
+.purple {
+  background-color: $PURPLE;
+}
+
+.buttonRow {
+  display: flex;
+  flex-direction: row;
+  .stopBtn {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    color: white;
+    vertical-align: middle;
+    text-align: center;
+    p {
+      display: inline-block;
+      font-size: 35px;
+      margin: 0;
+    }
+  }
+}

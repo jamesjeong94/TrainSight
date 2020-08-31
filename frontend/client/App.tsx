@@ -1,9 +1,12 @@
 import React from 'react';
+import Map from './components/map/Map';
+import MainMenu from './components/menu/MainMenu';
 
 const App = () => {
   return (
     <div>
-      <h1>react app</h1>
+      <MainMenu></MainMenu>
+      <Map></Map>
     </div>
   );
 };

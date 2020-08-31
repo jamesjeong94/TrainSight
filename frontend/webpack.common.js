@@ -1,5 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
   entry: {
@@ -12,7 +15,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.HOST': JSON.stringify('http://localhost:3000'),
+      'process.env.GMapKey': JSON.stringify(process.env.GMapKey),
     }),
   ],
   module: {
