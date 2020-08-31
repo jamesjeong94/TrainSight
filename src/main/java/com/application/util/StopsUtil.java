@@ -9,10 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static com.application.util.JsonUtil.parseJSONFile;
 
@@ -55,9 +52,16 @@ public class StopsUtil {
                     Double longitude = (Double) instance.get("GTFS Longitude");
                     String northDirection = (String) instance.get("North Direction Label");
                     String southDirection = (String) instance.get("South Direction Label");
+                    String stopID;
+                    if (instance.get("GTFS Stop ID") instanceof Integer) {
+                        stopID = (instance.get("GTFS Stop ID")).toString();
+                    } else {
+                        stopID = (String) instance.get("GTFS Stop ID");
+                    }
                     List<String> list = Arrays.asList(connectedLines);
                     if (list.contains(subwayLine)) {
-                        SubwayStop subwayStop = new SubwayStop(stopName,borough,connectedLines,latitude,longitude,northDirection,southDirection, direction);
+                        SubwayStop subwayStop = new SubwayStop(stopName,borough,connectedLines,latitude,longitude,
+                                northDirection,southDirection, direction, stopID);
                         subwayStops.add(subwayStop);
                     }
                 }
@@ -111,5 +115,14 @@ public class StopsUtil {
             array.put(instance);
         }
         return array;
+    }
+
+    public static HashMap<String, SubwayStop> mapIdToStop(ArrayList<SubwayStop> list) {
+        HashMap<String, SubwayStop> stopMap = new HashMap<>();
+        for (SubwayStop stop: list) {
+            String ID = stop.getStopID();
+            stopMap.put(ID, stop);
+        }
+        return stopMap;
     }
 }

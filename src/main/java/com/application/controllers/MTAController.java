@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import com.google.transit.realtime.GtfsRealtime.FeedEntity;
 import com.google.transit.realtime.GtfsRealtime.FeedMessage;
+import com.google.transit.realtime.GtfsRealtime.VehiclePosition;
 
 public class MTAController {
     static HashMap<String, String> feedUri;
@@ -74,10 +75,12 @@ public class MTAController {
             try {
                 responseInputStream = response.getBody().getInputStream();
                 FeedMessage feed = FeedMessage.parseFrom(responseInputStream);
-                for (FeedEntity ent: feed.getEntityList()) {
-                    if (ent.hasTripUpdate())
-                        System.out.println(ent.getTripUpdate());
-                    }
+                System.out.println(feed.getEntityList());
+//                for (FeedEntity ent: feed.getEntityList()) {
+//                    if (ent.hasTripUpdate()) {
+//                        System.out.println(ent.getTripUpdate());
+//                    }
+//                }
                 } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
