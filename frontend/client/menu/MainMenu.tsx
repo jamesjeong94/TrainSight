@@ -1,11 +1,14 @@
 import React, { MouseEvent } from 'react';
-import { mapColorToLine } from '../../util/menuUtil';
+import { mapColorToLine } from '../util/menuUtil';
 
-interface MainMenuProps {}
+type MainMenuProps = {
+  changeSubwayLine: (subwayLine: string) => void;
+};
 
-const MainMenu: React.FC<MainMenuProps> = ({}) => {
+const MainMenu: React.FC<MainMenuProps> = ({ changeSubwayLine }) => {
   const handleClick = (event: MouseEvent) => {
     console.log(event.currentTarget.id);
+    changeSubwayLine(event.currentTarget.id);
   };
 
   const lines = Object.keys(mapColorToLine).map((line: string, index: number) => {

@@ -1,7 +1,9 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 
-const Map = () => {
+type MapProps = {};
+
+const Map: React.FC<MapProps> = () => {
   const map = (
     <GoogleMapReact
       bootstrapURLKeys={{ key: process.env.GMapKey }}

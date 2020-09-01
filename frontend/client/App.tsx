@@ -1,11 +1,11 @@
 import React from 'react';
-import Map from './components/map/Map';
-import MainMenu from './components/menu/MainMenu';
+import Map from './map/Map';
+import MainMenuContainer from './menu/MainMenuContainer';
 
 const App = () => {
   return (
     <div>
-      <MainMenu></MainMenu>
+      <MainMenuContainer></MainMenuContainer>
       <Map></Map>
     </div>
   );
