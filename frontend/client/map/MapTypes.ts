@@ -17,9 +17,14 @@ export type SubwayStopMap = {
   [stopId: string]: SubwayStop;
 };
 
-export type SubwayStopList = {
-  subwayStops: SubwayStop[];
+export type CurrentPositon = {
+  timeStamp: number;
+  direction: string;
+  currentStopSequence: number;
+  stopId: string;
 };
+
+export type SubwayStopList = SubwayStop[];
 
 export interface IGetStopsForSubwayLineAction
   extends Action<'GET_STOPS_FOR_SUBWAY_LINE'> {
@@ -31,9 +36,12 @@ export interface IGetCurrentPositionsForSubwayLineAction
   payload: {};
 }
 
+export type CurrentPositionList = CurrentPositon[];
+
 export interface IMapState {
   stops: SubwayStopList | [];
   stopsMap: SubwayStopMap | {};
+  currentPositions: CurrentPositionList | [];
 }
 
 export type MapActionTypes =

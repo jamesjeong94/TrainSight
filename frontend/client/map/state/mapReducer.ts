@@ -7,6 +7,7 @@ import {
 const initialState: IMapState = {
   stops: [],
   stopsMap: {},
+  currentPositions: [],
 };
 
 const mapReducer = (state = initialState, action: MapActionTypes): IMapState => {
@@ -21,7 +22,6 @@ const mapReducer = (state = initialState, action: MapActionTypes): IMapState => 
       return {
         ...state,
       };
-
     default:
       return state;
   }

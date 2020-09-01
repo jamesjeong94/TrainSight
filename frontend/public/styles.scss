@@ -62,3 +62,18 @@ $PURPLE: #b933ad;
     }
   }
 }
+
+.Marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  &:hover {
+    z-index: 1;
+  }
+}
