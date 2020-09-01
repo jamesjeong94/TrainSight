@@ -1,12 +1,13 @@
 import React from 'react';
 import Map from './map/Map';
 import MainMenuContainer from './menu/MainMenuContainer';
+import MapContainer from './map/MapContainer';
 
 const App = () => {
   return (
     <div>
       <MainMenuContainer></MainMenuContainer>
-      <Map></Map>
+      <MapContainer></MapContainer>
     </div>
   );
 };

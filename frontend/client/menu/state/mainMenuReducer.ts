@@ -1,4 +1,4 @@
-import { CHANGE_SUBWAY_LINE } from '../../constants/mainMenu';
+import { CHANGE_SUBWAY_LINE } from './mainMenuConstants';
 import { MainMenuActionType, IMainMenuState } from '../MainMenuTypes';
 
 const initialState: IMainMenuState = {

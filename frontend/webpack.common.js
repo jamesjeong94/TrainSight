@@ -16,7 +16,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.GMapKey': JSON.stringify(process.env.GMapKey),
-      'process.env.HOST': JSON.stringify('http://localhost:8080'),
+      'process.env.API': JSON.stringify('http://localhost:8080'),
     }),
   ],
   module: {

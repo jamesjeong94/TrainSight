@@ -8,7 +8,7 @@ const mapStateToProps = null;
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    changeSubwayLine: (subwayLine: String) => {
+    changeSubwayLine: (subwayLine: string) => {
       dispatch(changeSubwayLine(subwayLine));
     },
   };

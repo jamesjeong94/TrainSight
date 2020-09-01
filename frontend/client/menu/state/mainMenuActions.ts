@@ -1,7 +1,7 @@
 import { IChangeSubwayLineAction } from '../MainMenuTypes';
-import { CHANGE_SUBWAY_LINE } from '../../constants/mainMenu';
+import { CHANGE_SUBWAY_LINE } from './mainMenuConstants';
 
-export const changeSubwayLine = (subwayLine: String): IChangeSubwayLineAction => {
+export const changeSubwayLine = (subwayLine: string): IChangeSubwayLineAction => {
   return {
     type: CHANGE_SUBWAY_LINE,
     payload: subwayLine,

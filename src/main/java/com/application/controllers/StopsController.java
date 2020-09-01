@@ -14,15 +14,17 @@ import static com.application.util.StopsUtil.getStopsForLine;
 import static com.application.util.StopsUtil.mapIdToStop;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class StopsController {
 
    @RequestMapping(value = "/stops", method = RequestMethod.GET)
    @ResponseBody
-   public HashMap<String, Object> getSubwayStops(@RequestParam(value = "subwayline", defaultValue = "L")String subwayLine) throws JSONException {
+   public HashMap<String, Object> getSubwayStops(@RequestParam(value = "subwayline")String subwayLine) throws JSONException {
        HashMap<String, Object> response = new HashMap<>();
        ArrayList<SubwayStop> stops = getStopsForLine(subwayLine);
+       System.out.println(subwayLine);
        response.put("stops", stops);
-       response.put("map",mapIdToStop(stops));
+       response.put("stopsMap",mapIdToStop(stops));
        return response;
    }
 

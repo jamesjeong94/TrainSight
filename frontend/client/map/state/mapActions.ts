@@ -1,14 +1,20 @@
 import axios from 'axios';
-import { Dispatch } from 'redux';
+import { Dispatch, Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { GET_STOPS_FOR_SUBWAY_LINE } from './mapConstants';
 
 export const getStopsForSubwayLine = (subwayLine: string) => {
-  return (dispatch: Dispatch) => {
-    axios({
+  return (dispatch: ThunkDispatch<any, any, Action>): Promise<void> => {
+    return axios({
+      baseURL: '',
       method: 'get',
-      url: process.env.HOST + '/stops',
+      params: {
+        subwayline: subwayLine,
+      },
+      url: process.env.API + '/stops',
     }).then(({ data }) => {
       dispatch({
-        type: 'something',
+        type: GET_STOPS_FOR_SUBWAY_LINE,
         payload: data,
       });
     });
