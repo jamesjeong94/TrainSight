@@ -54,11 +54,19 @@ $PURPLE: #b933ad;
     color: white;
     vertical-align: middle;
     text-align: center;
+    position: relative;
+    margin: 1px;
     p {
-      display: inline-block;
+      text-align: center;
+      font-family: 'Helvetica', 'Arial';
       font-size: 35px;
       margin: 0;
-      font-family: 'Helvetica', 'Arial';
+      padding: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
     }
   }
 }
