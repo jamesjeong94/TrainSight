@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { SubwayStopMap, SubwayStopList, SubwayStop, StopLatLng } from './MapTypes';
+import {
+  SubwayStopMap,
+  SubwayStopList,
+  SubwayStop,
+  StopLatLng,
+  CurrentPositionList,
+  CurrentPositon,
+} from './MapTypes';
 import { mapColorToLine } from '../util/menuUtil';
 
 import Polyline from './components/Polyline';
 import Marker from './components/Marker';
+import TrainMarker from './components/TrainMarker';
+
 import { getLatLngFromStops } from '../util/mapUtil';
 
 type MapProps = {
   getStopsForSubwayLine: (subwayLine: string) => void;
   getCurrentPositionsForSubwayLine: (subwayLine: string) => void;
   subwayLine: string;
-  subwayStops: SubwayStopList | [];
-  subwayStopsMap: SubwayStopMap | {};
+  subwayStops: SubwayStopList;
+  subwayStopsMap: SubwayStopMap;
+  trainPositions: CurrentPositionList;
 };
 
 const Map: React.FC<MapProps> = ({
@@ -20,6 +30,7 @@ const Map: React.FC<MapProps> = ({
   subwayLine,
   subwayStops,
   subwayStopsMap,
+  trainPositions,
   getCurrentPositionsForSubwayLine,
 }) => {
   const [map, setMap] = useState(null);
@@ -68,6 +79,24 @@ const Map: React.FC<MapProps> = ({
         })
       : null;
 
+  const trainMarkers =
+    trainPositions.length > 0
+      ? (trainPositions as CurrentPositionList).map((position: CurrentPositon) => {
+          const stopID = position.stopID;
+          const currentStop = subwayStopsMap[stopID];
+          if (currentStop !== undefined) {
+            console.log(stopID);
+            return (
+              <TrainMarker
+                info={position}
+                lat={currentStop.latitude}
+                lng={currentStop.longitude}
+              ></TrainMarker>
+            );
+          }
+        })
+      : null;
+
   const GoogleMap = (
     <GoogleMapReact
       bootstrapURLKeys={{ key: process.env.GMapKey }}
@@ -95,6 +124,7 @@ const Map: React.FC<MapProps> = ({
           }}
         />
       )}
+      {trainMarkers}
     </GoogleMapReact>
   );
   return <div style={{ height: '80vh', width: '100%' }}>{GoogleMap}</div>;

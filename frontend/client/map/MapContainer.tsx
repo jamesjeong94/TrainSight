@@ -15,6 +15,7 @@ const mapStateToProps = (state: RootState) => {
     subwayLine: state.mainMenu.subwayLine,
     subwayStops: state.map.stops,
     subwayStopsMap: state.map.stopsMap,
+    trainPositions: state.map.currentPositions,
   };
 };
 
@@ -40,6 +41,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   subwayLine,
   subwayStops,
   subwayStopsMap,
+  trainPositions,
   getCurrentPositionsForSubwayLine,
 }) => {
   return (
@@ -49,6 +51,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
       subwayStops={subwayStops}
       subwayStopsMap={subwayStopsMap}
       getCurrentPositionsForSubwayLine={getCurrentPositionsForSubwayLine}
+      trainPositions={trainPositions}
     ></Map>
   );
 };
