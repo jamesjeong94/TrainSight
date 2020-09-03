@@ -27,6 +27,12 @@ const Map: React.FC<MapProps> = ({
   const [markers, setMarkers] = useState<StopLatLng[]>([]);
   const [mapLoaded, changeMapLoad] = useState(false);
 
+  const createMapOptions = () => {
+    return {
+      clickableIcons: false,
+    };
+  };
+
   useEffect(() => {
     if (subwayLine !== '') {
       getStopsForSubwayLine(subwayLine);
@@ -68,10 +74,12 @@ const Map: React.FC<MapProps> = ({
       defaultCenter={{ lat: 40.7128, lng: -74.006 }}
       defaultZoom={12}
       clickableIcons={false}
+      options={createMapOptions}
       onGoogleApiLoaded={({ map, maps }: { map: any; maps: any }) => {
         console.log('gmap loaded');
         onMapLoaded(map, maps);
       }}
+      hoverDistance={4.5}
     >
       {subwayStopMarkers}
       {mapLoaded && (

@@ -85,3 +85,20 @@ $PURPLE: #b933ad;
     z-index: 1;
   }
 }
+
+.infoWindow {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  background-color: white;
+  border: 1 px black;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+
+  .infoBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

@@ -1,17 +1,19 @@
 import React from 'react';
+import { SubwayStop } from '../MapTypes';
 
 interface InfoWindowProps {
   closeInfoWindow: () => void;
-  stopInfo: any;
+  stopInfo: SubwayStop;
 }
 
 const InfoWindow: React.FC<InfoWindowProps> = ({ stopInfo, closeInfoWindow }) => {
   return (
     <div className="infoWindow">
-      <div className="bold">{stopInfo['Stop Name']}</div>
-      <button className="center infoBtn" onClick={closeInfoWindow}>
+      {/* <button className="center infoBtn" onClick={closeInfoWindow}>
         X
-      </button>
+      </button> */}
+      <p>{stopInfo.stopName}</p>
+      <p>{stopInfo.connectedLines.join(' ')}</p>
     </div>
   );
 };

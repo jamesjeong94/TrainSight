@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEventHandler } from 'react';
 
 import InfoWindow from './InfoWindow';
 
@@ -25,6 +25,12 @@ const Marker: React.FC<MarkerProps> = ({ stopInfo, color }) => {
         style={{ cursor: 'pointer' }}
         title={name}
         onClick={handleClick}
+        onMouseEnter={() => {
+          changeShowInfo(true);
+        }}
+        onMouseLeave={() => {
+          changeShowInfo(false);
+        }}
       />
       {infoWindow}
     </>
