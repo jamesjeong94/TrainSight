@@ -21,6 +21,7 @@ const mapReducer = (state = initialState, action: MapActionTypes): IMapState => 
     case GET_CURRENT_POSITIONS_FOR_SUBWAY_LINE:
       return {
         ...state,
+        currentPositions: action.payload,
       };
     default:
       return state;

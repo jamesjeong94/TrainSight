@@ -33,7 +33,7 @@ export interface IGetStopsForSubwayLineAction
 
 export interface IGetCurrentPositionsForSubwayLineAction
   extends Action<'GET_CURRENT_POSITIONS_FOR_SUBWAY_LINE'> {
-  payload: {};
+  payload: CurrentPositionList;
 }
 
 export type CurrentPositionList = CurrentPositon[];

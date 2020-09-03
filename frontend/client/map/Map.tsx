@@ -6,6 +6,7 @@ import Marker from './components/Marker';
 
 type MapProps = {
   getStopsForSubwayLine: (subwayLine: string) => void;
+  getCurrentPositionsForSubwayLine: (subwayLine: string) => void;
   subwayLine: string;
   subwayStops: SubwayStopList | [];
   subwayStopsMap: SubwayStopMap | {};
@@ -16,6 +17,7 @@ const Map: React.FC<MapProps> = ({
   subwayLine,
   subwayStops,
   subwayStopsMap,
+  getCurrentPositionsForSubwayLine,
 }) => {
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
@@ -25,6 +27,7 @@ const Map: React.FC<MapProps> = ({
   useEffect(() => {
     if (subwayLine !== '') {
       getStopsForSubwayLine(subwayLine);
+      getCurrentPositionsForSubwayLine(subwayLine);
     }
   }, [subwayLine]);
 

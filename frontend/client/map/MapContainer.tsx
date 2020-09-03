@@ -5,7 +5,10 @@ import { Dispatch, Action } from 'redux';
 import { RootState } from '../rootReducer';
 import { ThunkDispatch } from 'redux-thunk';
 
-import { getStopsForSubwayLine } from './state/mapActions';
+import {
+  getStopsForSubwayLine,
+  getCurrentPositionsForSubwayLine,
+} from './state/mapActions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -19,6 +22,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, Action>) => {
   return {
     getStopsForSubwayLine: (subwayLine: string) => {
       dispatch(getStopsForSubwayLine(subwayLine));
+    },
+    getCurrentPositionsForSubwayLine: (subwayLine: string) => {
+      dispatch(getCurrentPositionsForSubwayLine(subwayLine));
     },
   };
 };
@@ -34,6 +40,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   subwayLine,
   subwayStops,
   subwayStopsMap,
+  getCurrentPositionsForSubwayLine,
 }) => {
   return (
     <Map
@@ -41,6 +48,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
       subwayLine={subwayLine}
       subwayStops={subwayStops}
       subwayStopsMap={subwayStopsMap}
+      getCurrentPositionsForSubwayLine={getCurrentPositionsForSubwayLine}
     ></Map>
   );
 };
