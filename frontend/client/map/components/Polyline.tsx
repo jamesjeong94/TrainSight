@@ -4,16 +4,17 @@ interface PolylineProps {
   markers: any;
   map: any;
   maps: any;
+  options: any;
 }
 
-export const Polyline: React.FC<PolylineProps> = ({ markers, map, maps }) => {
+const Polyline: React.FC<PolylineProps> = ({ markers, map, maps }) => {
   const [polyline, setPolyline] = useState<any>(null);
 
   const renderPolyline = () => {
     if (polyline !== null) {
       polyline.setMap(null);
     }
-    let nonGeodesicPolyline = new maps.Polyline({
+    const nonGeodesicPolyline = new maps.Polyline({
       path: markers,
       geodesic: false,
       strokeColor: 'black',
@@ -22,11 +23,12 @@ export const Polyline: React.FC<PolylineProps> = ({ markers, map, maps }) => {
     });
     setPolyline(nonGeodesicPolyline);
     nonGeodesicPolyline.setMap(map);
-
-    useEffect(() => {
-      renderPolyline();
-    }, [markers]);
   };
+  useEffect(() => {
+    renderPolyline();
+  }, [markers]);
 
   return null;
 };
+
+export = Polyline;

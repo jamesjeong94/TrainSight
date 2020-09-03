@@ -20,10 +20,8 @@ public class StopsUtil {
 
     public static void main(String[] args) {
         //manual testing
-        ArrayList<SubwayStop> test = getStopsForLine("G");
-        for(SubwayStop subwayStop: test) {
-            System.out.println(subwayStop);
-        }
+        ArrayList<SubwayStop> test = getStopsForLine("M");
+        System.out.println(test);
     }
 
 
@@ -71,13 +69,41 @@ public class StopsUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        SubwayStop startingStation = getStartingStation(subwayStops, subwayLine);
+        subwayStops = sortStopsForLine(subwayStops, startingStation);
+//        System.out.println("***STARTING***");
+//        System.out.println(startingStation);
+//        System.out.println("***STOPS***");
+//        System.out.println(subwayStops);
         return subwayStops;
     }
 
     /*
     Sorts the subway stops based on distance and previous
      */
-    public static void sortStopsForLine(ArrayList<SubwayStop> subwayStops) {
+    public static ArrayList<SubwayStop> sortStopsForLine(ArrayList<SubwayStop> subwayStops, SubwayStop startingStation) {
+        ArrayList<SubwayStop> sortedSubwayStop = new ArrayList<>();
+        return recursiveSort(subwayStops, startingStation, sortedSubwayStop);
+    }
+
+    public static ArrayList<SubwayStop> recursiveSort(ArrayList<SubwayStop> subwayStops, SubwayStop startingStation, ArrayList<SubwayStop> sortedSubwayStops) {
+        if (subwayStops.size() == 0) {
+            return sortedSubwayStops;
+        }
+        sortedSubwayStops.add(startingStation);
+        subwayStops.remove(startingStation);
+        SubwayStop closest = null;
+        double closestDistance = 1000;
+        for (SubwayStop stop1: subwayStops) {
+            if(closest == null) {
+                closest = stop1;
+            }
+            if (calculateDistance(stop1, startingStation) < closestDistance) {
+                closest = stop1;
+                closestDistance = calculateDistance(stop1, startingStation);
+            }
+        }
+        return recursiveSort(subwayStops, closest, sortedSubwayStops);
 
     }
 
@@ -93,12 +119,44 @@ public class StopsUtil {
 
     /*
     Get either endpoints of the subway line
+    NOTE: NOT THE MOST ELEGANT IMPLEMENTATION!!!
      */
-    public static SubwayStop getStartingStation (ArrayList<SubwayStop> subwayStops) {
+    public static SubwayStop getStartingStation (ArrayList<SubwayStop> subwayStops, String subwayLine) {
         for (SubwayStop subwayStop: subwayStops) {
-            if (subwayStop.getNorthDirection().isEmpty()) {
+            if ((subwayLine.equals("M") || subwayLine.equals("R")) && subwayStop.getStopName().equals("Forest Hills - 71 Av")) {
                 return subwayStop;
             }
+            if ((subwayLine.equals("J")|| subwayLine.equals("Z")) && subwayStop.getStopName().equals("Broad St")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("G")) && subwayStop.getStopName().equals("Court Sq")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("Q")) && subwayStop.getStopName().equals("96 St")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("1")) && subwayStop.getStopName().equals("Van Cortlandt Park - 242 St")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("3")) && subwayStop.getStopName().equals("Harlem - 148 St")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("F")) && subwayStop.getStopName().equals("Jamaica - 179 St")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("E")) && subwayStop.getStopName().equals("World Trade Center")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("4")) && subwayStop.getStopName().equals("Utica Av")) {
+                return subwayStop;
+            }
+            if ((subwayLine.equals("5")) && subwayStop.getStopName().equals("Flatbush Av - Brooklyn College")) {
+                return subwayStop;
+            }
+            if (subwayStop.getSouthDirection() == "" || subwayStop.getNorthDirection() == "") {
+                return subwayStop;
+            }
+
         }
         return subwayStops.get(0);
     }

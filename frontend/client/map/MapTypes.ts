@@ -24,6 +24,11 @@ export type CurrentPositon = {
   stopId: string;
 };
 
+export type StopLatLng = {
+  lat: number;
+  lng: number;
+};
+
 export type SubwayStopList = SubwayStop[];
 
 export interface IGetStopsForSubwayLineAction

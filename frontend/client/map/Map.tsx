@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { SubwayStopMap, SubwayStopList, SubwayStop } from './MapTypes';
+import { SubwayStopMap, SubwayStopList, SubwayStop, StopLatLng } from './MapTypes';
 import { mapColorToLine } from '../util/menuUtil';
+
+import Polyline from './components/Polyline';
 import Marker from './components/Marker';
+import { getLatLngFromStops } from '../util/mapUtil';
 
 type MapProps = {
   getStopsForSubwayLine: (subwayLine: string) => void;
@@ -21,7 +24,7 @@ const Map: React.FC<MapProps> = ({
 }) => {
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
-  const [markers, setMarkers] = useState(null);
+  const [markers, setMarkers] = useState<StopLatLng[]>([]);
   const [mapLoaded, changeMapLoad] = useState(false);
 
   useEffect(() => {
@@ -30,6 +33,13 @@ const Map: React.FC<MapProps> = ({
       getCurrentPositionsForSubwayLine(subwayLine);
     }
   }, [subwayLine]);
+
+  useEffect(() => {
+    if (subwayStops.length > 0) {
+      const stops = getLatLngFromStops(subwayStops);
+      setMarkers(stops);
+    }
+  }, [subwayStops]);
 
   const onMapLoaded = (map: any, maps: any) => {
     setMap(map);
@@ -57,11 +67,26 @@ const Map: React.FC<MapProps> = ({
       bootstrapURLKeys={{ key: process.env.GMapKey }}
       defaultCenter={{ lat: 40.7128, lng: -74.006 }}
       defaultZoom={12}
-      onGoogleApiLoaded={({ map, maps }: { map: any; maps: any }) =>
-        onMapLoaded(map, maps)
-      }
+      clickableIcons={false}
+      onGoogleApiLoaded={({ map, maps }: { map: any; maps: any }) => {
+        console.log('gmap loaded');
+        onMapLoaded(map, maps);
+      }}
     >
       {subwayStopMarkers}
+      {mapLoaded && (
+        <Polyline
+          maps={maps}
+          map={map}
+          markers={markers}
+          options={{
+            geodesic: false,
+            strokeColor: '#e4e4e4',
+            strokeOpacity: 0.7,
+            strokeWeight: 3,
+          }}
+        />
+      )}
     </GoogleMapReact>
   );
   return <div style={{ height: '80vh', width: '100%' }}>{GoogleMap}</div>;

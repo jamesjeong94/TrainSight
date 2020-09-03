@@ -65,7 +65,7 @@ public class SubwayStop {
 
     public String toString() {
         StringBuilder sb = new StringBuilder(stopName);
-        sb.append(" "+direction).append(" "+latitude).append(" "+longitude);
+        sb.append(" "+direction).append(" "+latitude).append(" "+longitude).append("\nSouth:"+getSouthDirection()).append("\nNorth:"+getNorthDirection()+"\n");
         return sb.toString();
     }
 }
