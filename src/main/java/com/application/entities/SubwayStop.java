@@ -16,6 +16,7 @@ public class SubwayStop {
 
     public SubwayStop(String stopName, String borough, String[] connectedLines, double latitude, double longitude,
                       String northDirection, String southDirection, String direction, String stopID) {
+
         this.stopName = stopName;
         this.borough = borough;
         this.connectedLines = connectedLines;
@@ -25,6 +26,7 @@ public class SubwayStop {
         this.southDirection = southDirection;
         this.direction = direction;
         this.stopID = stopID;
+
     }
 
     public String getStopName() {

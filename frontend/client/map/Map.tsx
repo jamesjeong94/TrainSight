@@ -14,7 +14,7 @@ import Polyline from './components/Polyline';
 import Marker from './components/Marker';
 import TrainMarker from './components/TrainMarker';
 
-import { getLatLngFromStops } from '../util/mapUtil';
+import { getLatLngFromStops, currentLatLng } from '../util/mapUtil';
 
 type MapProps = {
   getStopsForSubwayLine: (subwayLine: string) => void;
@@ -81,20 +81,48 @@ const Map: React.FC<MapProps> = ({
 
   const trainMarkers =
     trainPositions.length > 0
-      ? (trainPositions as CurrentPositionList).map((position: CurrentPositon) => {
-          const stopID = position.stopID;
-          const currentStop = subwayStopsMap[stopID];
-          if (currentStop !== undefined) {
-            console.log(stopID);
-            return (
-              <TrainMarker
-                info={position}
-                lat={currentStop.latitude}
-                lng={currentStop.longitude}
-              ></TrainMarker>
-            );
+      ? (trainPositions as CurrentPositionList).map(
+          (position: CurrentPositon, index: number) => {
+            const { direction, stopID } = position;
+            const currentStop = subwayStopsMap[stopID];
+            if (currentStop !== undefined) {
+              const currentStopName = currentStop.stopName;
+              console.log(currentStop);
+              const currentIndexOfStop = subwayStops.findIndex(
+                (stop) => stop.stopName === currentStopName
+              );
+              const nextIndex =
+                direction === 'N' ? currentIndexOfStop + 1 : currentIndexOfStop - 1;
+              const nextStop = subwayStops[nextIndex] ? subwayStops[nextIndex] : null;
+              let lat = currentStop.latitude;
+              let lng = currentStop.longitude;
+              const timeDifference = new Date().getTime() / 1000 - position.timeStamp;
+              if (nextStop !== null) {
+                const newCoords = currentLatLng(
+                  lat,
+                  lng,
+                  nextStop.latitude,
+                  nextStop.longitude,
+                  timeDifference
+                );
+
+                lat = newCoords.lat;
+                lng = newCoords.lng;
+              } else {
+                console.log('wrong direction, start from bottom');
+              }
+
+              return (
+                <TrainMarker
+                  info={position}
+                  lat={lat}
+                  lng={lng}
+                  nextStop={nextStop}
+                ></TrainMarker>
+              );
+            }
           }
-        })
+        )
       : null;
 
   const GoogleMap = (
