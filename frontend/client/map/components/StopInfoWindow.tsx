@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubwayStop } from '../MapTypes';
+import { SubwayStop, CurrentPositon } from '../MapTypes';
 
 interface InfoWindowProps {
   closeInfoWindow: () => void;

@@ -38,10 +38,13 @@ export const currentLatLng = (
   dist = Math.acos(dist);
   dist = (dist * 180) / Math.PI;
   dist = dist * 60 * 1.1515;
-  const traveledDistance = (time * 30) / 3600;
+  let traveledDistance = (time * 30) / 3600;
+  if (traveledDistance > dist) {
+    traveledDistance = traveledDistance % dist;
+  }
   const ratio = traveledDistance / dist;
   return {
-    lat: lat1 + deltaLat * ratio,
-    lng: lon1 + deltaLon * ratio,
+    lat: lat2 + deltaLat * ratio,
+    lng: lon2 + deltaLon * ratio,
   };
 };

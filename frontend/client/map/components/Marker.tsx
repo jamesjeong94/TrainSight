@@ -1,6 +1,6 @@
 import React, { useState, MouseEventHandler } from 'react';
 
-import InfoWindow from './InfoWindow';
+import StopInfoWindow from './StopInfoWindow';
 
 interface MarkerProps {
   stopInfo: any;
@@ -16,7 +16,7 @@ const Marker: React.FC<MarkerProps> = ({ stopInfo, color }) => {
     changeShowInfo(!showInfo);
   };
   const infoWindow = showInfo ? (
-    <InfoWindow closeInfoWindow={handleClick} stopInfo={stopInfo} />
+    <StopInfoWindow closeInfoWindow={handleClick} stopInfo={stopInfo} />
   ) : null;
   return (
     <>

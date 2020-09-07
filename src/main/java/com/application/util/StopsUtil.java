@@ -144,13 +144,13 @@ public class StopsUtil {
             if ((subwayLine.equals("F")) && subwayStop.getStopName().equals("Jamaica - 179 St")) {
                 return subwayStop;
             }
-            if ((subwayLine.equals("E")) && subwayStop.getStopName().equals("World Trade Center")) {
+            if ((subwayLine.equals("E")) && subwayStop.getStopName().equals("Jamaica Center - Parsons/Archer")) {
                 return subwayStop;
             }
-            if ((subwayLine.equals("4")) && subwayStop.getStopName().equals("Utica Av")) {
+            if ((subwayLine.equals("4")) && subwayStop.getStopName().equals("Woodlawn - Eastchester Dyre Av")) {
                 return subwayStop;
             }
-            if ((subwayLine.equals("5")) && subwayStop.getStopName().equals("Flatbush Av - Brooklyn College")) {
+            if ((subwayLine.equals("5")) && subwayStop.getStopName().equals("Woodlawn - Eastchester Dyre Av")) {
                 return subwayStop;
             }
             if (subwayStop.getSouthDirection() == "" || subwayStop.getNorthDirection() == "") {

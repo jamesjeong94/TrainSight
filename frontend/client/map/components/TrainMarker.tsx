@@ -1,6 +1,8 @@
 import React, { useState, MouseEventHandler } from 'react';
 import { CurrentPositon, SubwayStop } from '../MapTypes';
 
+import CurrentPositionInfoWindow from './CurrentPositionInfoWindow';
+
 type MarkerProps = {
   info: CurrentPositon;
   currentStop?: SubwayStop;
