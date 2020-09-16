@@ -1,9 +1,10 @@
 import React, { useState, MouseEventHandler } from 'react';
 
 import StopInfoWindow from './StopInfoWindow';
+import { SubwayStop } from '../MapTypes';
 
 interface MarkerProps {
-  stopInfo: any;
+  stopInfo: SubwayStop;
   color: string;
   lng: number;
   lat: number;
@@ -31,7 +32,7 @@ const Marker: React.FC<MarkerProps> = ({ stopInfo, color }) => {
         onMouseLeave={() => {
           changeShowInfo(false);
         }}
-      />
+      ><p>{stopInfo.stopName}</p></div>
       {infoWindow}
     </>
   );

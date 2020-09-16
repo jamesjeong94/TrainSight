@@ -48,3 +48,16 @@ export const currentLatLng = (
     lng: lon2 + deltaLon * ratio,
   };
 };
+
+export const getRelativeTimeFromSeconds = (time: number): string => {
+  if (time < 10) {
+    return 'a few seconds ago';
+  } else if (time < 60) {
+    return `${Math.round(time)} seconds ago`;
+  } else if (time < 3600) {
+    const plural = time < 120 ? 'minute' : 'minutes';
+    return `${Math.floor(time / 60)} ${plural} ago`;
+  } else {
+    return `a while ago`;
+  }
+};

@@ -18,9 +18,24 @@ const Marker: React.FC<MarkerProps> = ({ info, lng, lat, nextStop, currentStop }
     changeShowInfo(!showInfo);
   };
 
+
+  const timeDifference = new Date().getTime() / 1000 - info.timeStamp;
+
+
+  const infoWindow = showInfo ? (
+    <CurrentPositionInfoWindow info={info} timeDiff={timeDifference} />
+  ) : null;
+
   return (
     <>
-      <div className="trainMarker" style={{ cursor: 'pointer' }} onClick={handleClick} />
+      <div className="trainMarker" style={{ cursor: 'pointer' }} onClick={handleClick}
+        onMouseEnter={() => {
+          changeShowInfo(true);
+        }}
+        onMouseLeave={() => {
+          changeShowInfo(false);
+        }} />
+      {infoWindow}
     </>
   );
 };

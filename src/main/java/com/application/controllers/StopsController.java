@@ -22,7 +22,6 @@ public class StopsController {
    public HashMap<String, Object> getSubwayStops(@RequestParam(value = "subwayline")String subwayLine) throws JSONException {
        HashMap<String, Object> response = new HashMap<>();
        ArrayList<SubwayStop> stops = getStopsForLine(subwayLine);
-       System.out.println(subwayLine);
        response.put("stops", stops);
        response.put("stopsMap",mapIdToStop(stops));
        return response;
