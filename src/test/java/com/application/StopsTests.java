@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,14 +28,14 @@ public class StopsTests {
     private TestRestTemplate restTemplate;
 
     @Test
-    @DisplayName("Checking if /stops endpoint returns a hashmap with maps and stops key")
+    @DisplayName("Checking if /stops endpoint returns a hashmap with stopsMap and stops key")
     public void stopsEndPointShouldReturnHashMap() throws Exception{
         String endPt = "http://localhost:" + port + "/stops";
         for (String line: subwayLines) {
-            HashMap<String, String> params = new HashMap<>();
-            params.put("subwayline",line);
-            assertThat(this.restTemplate.getForObject(endPt, HashMap.class, params)).containsKey("map");
-            assertThat(this.restTemplate.getForObject(endPt, HashMap.class, params)).containsKey("stops");
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(endPt).queryParam("subwayline",line);
+            Map response = this.restTemplate.getForObject(builder.toUriString(), Map.class);
+            assertThat(response).containsKey("stopsMap");
+            assertThat(response).containsKey("stops");
 
         }
     }
@@ -43,9 +45,9 @@ public class StopsTests {
     public void liveStopsEndPointShouldReturnList() throws Exception{
         String endPt = "http://localhost:" + port + "/stopsLive";
         for (String line: subwayLines) {
-            HashMap<String, String> params = new HashMap<>();
-            params.put("subwayline",line);
-            assertThat(this.restTemplate.getForObject(endPt, List.class, params)).isNotEmpty();
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(endPt).queryParam("subwayline",line);
+            List response = this.restTemplate.getForObject(builder.toUriString(),List.class);
+            assertThat(response).isNotEmpty();
         }
     }
 }

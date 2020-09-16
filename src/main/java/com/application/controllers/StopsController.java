@@ -2,8 +2,6 @@ package com.application.controllers;
 
 import com.application.entities.CurrentVehiclePosition;
 import com.application.entities.SubwayStop;
-import com.google.transit.realtime.GtfsRealtime;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +17,7 @@ public class StopsController {
 
    @RequestMapping(value = "/stops", method = RequestMethod.GET)
    @ResponseBody
-   public HashMap<String, Object> getSubwayStops(@RequestParam(value = "subwayline")String subwayLine) throws JSONException {
+   public HashMap<String, Object> getSubwayStops(@RequestParam(value = "subwayline", defaultValue = "1")String subwayLine) throws JSONException {
        HashMap<String, Object> response = new HashMap<>();
        ArrayList<SubwayStop> stops = getStopsForLine(subwayLine);
        response.put("stops", stops);
