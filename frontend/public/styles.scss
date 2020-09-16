@@ -8,6 +8,8 @@ $RED: #ee352e;
 $GREEN: #00933c;
 $PURPLE: #b933ad;
 
+$FONT: 'Helvetica', 'Arial';
+
 .blue {
   background-color: $BLUE;
 }
@@ -84,6 +86,18 @@ $PURPLE: #b933ad;
   &:hover {
     z-index: 1;
   }
+}
+
+.stopName {
+  left: 10px;
+  white-space: nowrap;
+  position: relative;
+  font-family: $FONT;
+  font-size: 15px;
+}
+
+.hide {
+  display: none;
 }
 
 .trainMarker {

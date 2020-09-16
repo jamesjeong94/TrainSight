@@ -8,9 +8,10 @@ interface MarkerProps {
   color: string;
   lng: number;
   lat: number;
+  zoom: number;
 }
 
-const Marker: React.FC<MarkerProps> = ({ stopInfo, color }) => {
+const Marker: React.FC<MarkerProps> = ({ stopInfo, color, zoom }) => {
   const [showInfo, changeShowInfo] = useState(false);
   const markerClassName = color ? `Marker ${color}` : 'Marker';
   const handleClick = () => {
@@ -19,6 +20,9 @@ const Marker: React.FC<MarkerProps> = ({ stopInfo, color }) => {
   const infoWindow = showInfo ? (
     <StopInfoWindow closeInfoWindow={handleClick} stopInfo={stopInfo} />
   ) : null;
+
+  const stopNameClass = zoom >= 15 ? "stopName" : "hide"
+
   return (
     <>
       <div
@@ -32,7 +36,8 @@ const Marker: React.FC<MarkerProps> = ({ stopInfo, color }) => {
         onMouseLeave={() => {
           changeShowInfo(false);
         }}
-      ><p>{stopInfo.stopName}</p></div>
+      ></div>
+      <span className={stopNameClass}>{stopInfo.stopName}</span>
       {infoWindow}
     </>
   );

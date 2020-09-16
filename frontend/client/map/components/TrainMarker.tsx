@@ -23,7 +23,7 @@ const Marker: React.FC<MarkerProps> = ({ info, lng, lat, nextStop, currentStop }
 
 
   const infoWindow = showInfo ? (
-    <CurrentPositionInfoWindow info={info} timeDiff={timeDifference} />
+    <CurrentPositionInfoWindow info={info} timeDiff={timeDifference} currentStop={currentStop} />
   ) : null;
 
   return (

@@ -37,6 +37,7 @@ const Map: React.FC<MapProps> = ({
   const [maps, setMaps] = useState(null);
   const [markers, setMarkers] = useState<StopLatLng[]>([]);
   const [mapLoaded, changeMapLoad] = useState(false);
+  const [zoom, setZoom] = useState(12)
 
   const createMapOptions = () => {
     return {
@@ -67,69 +68,81 @@ const Map: React.FC<MapProps> = ({
   const subwayStopMarkers =
     subwayStops.length > 0
       ? (subwayStops as SubwayStopList).map((stop, index) => {
-          return (
-            <Marker
-              lat={stop.latitude}
-              lng={stop.longitude}
-              key={index}
-              stopInfo={stop}
-              color={mapColorToLine[subwayLine]}
-            ></Marker>
-          );
-        })
+        return (
+          <Marker
+            lat={stop.latitude}
+            lng={stop.longitude}
+            key={index}
+            stopInfo={stop}
+            color={mapColorToLine[subwayLine]}
+            zoom={zoom}
+          ></Marker>
+        );
+      })
       : null;
 
   const trainMarkers =
     trainPositions.length > 0
       ? (trainPositions as CurrentPositionList).map(
-          (position: CurrentPositon, index: number) => {
-            const { direction, stopID } = position;
-            const currentStop = subwayStopsMap[stopID];
-            if (currentStop !== undefined) {
-              const currentStopName = currentStop.stopName;
-              console.log(currentStop);
-              const currentIndexOfStop = subwayStops.findIndex(
-                (stop) => stop.stopName === currentStopName
+        (position: CurrentPositon, index: number) => {
+          const { direction, stopID } = position;
+          const currentStop = subwayStopsMap[stopID];
+          if (currentStop !== undefined) {
+            const currentStopName = currentStop.stopName;
+            const currentIndexOfStop = subwayStops.findIndex(
+              (stop) => stop.stopName === currentStopName
+            );
+            const nextIndex =
+              direction === 'N' ? currentIndexOfStop + 1 : currentIndexOfStop - 1;
+            const nextStop = subwayStops[nextIndex] ? subwayStops[nextIndex] : null;
+            let lat = currentStop.latitude;
+            let lng = currentStop.longitude;
+            const timeDifference = new Date().getTime() / 1000 - position.timeStamp;
+            if (nextStop !== null) {
+              const newCoords = currentLatLng(
+                lat,
+                lng,
+                nextStop.latitude,
+                nextStop.longitude,
+                timeDifference
               );
-              const nextIndex =
-                direction === 'N' ? currentIndexOfStop + 1 : currentIndexOfStop - 1;
-              const nextStop = subwayStops[nextIndex] ? subwayStops[nextIndex] : null;
-              let lat = currentStop.latitude;
-              let lng = currentStop.longitude;
-              const timeDifference = new Date().getTime() / 1000 - position.timeStamp;
-              if (nextStop !== null) {
-                const newCoords = currentLatLng(
-                  lat,
-                  lng,
-                  nextStop.latitude,
-                  nextStop.longitude,
-                  timeDifference
-                );
 
-                lat = newCoords.lat;
-                lng = newCoords.lng;
-              } else {
-                console.log('wrong direction, start from bottom');
-              }
-
-              return (
-                <TrainMarker
-                  info={position}
-                  lat={lat}
-                  lng={lng}
-                  nextStop={nextStop}
-                ></TrainMarker>
-              );
+              lat = newCoords.lat;
+              lng = newCoords.lng;
+            } else {
+              console.log('wrong direction, start from bottom');
             }
+
+            return (
+              <TrainMarker
+                info={position}
+                lat={lat}
+                lng={lng}
+                nextStop={nextStop}
+                currentStop={currentStop}
+              ></TrainMarker>
+            );
           }
-        )
+        }
+      )
       : null;
+
+  const handleZoomChange = (e: any) => {
+    if (e.zoom != zoom) {
+      setZoom(e.zoom)
+      console.log(e)
+
+    }
+  }
+
 
   const GoogleMap = (
     <GoogleMapReact
+      onChange={handleZoomChange}
       bootstrapURLKeys={{ key: process.env.GMapKey }}
       defaultCenter={{ lat: 40.7128, lng: -74.006 }}
       defaultZoom={12}
+      zoom={zoom}
       clickableIcons={false}
       options={createMapOptions}
       onGoogleApiLoaded={({ map, maps }: { map: any; maps: any }) => {
