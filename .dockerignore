@@ -2,3 +2,4 @@
 # ignore .git and .cache folders
 .git/
 target/
+node_modules

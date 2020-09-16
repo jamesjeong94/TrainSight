@@ -38,3 +38,4 @@ build
 package-lock.json
 bundle.js
 frontend/.env
+src/main/resources/static
