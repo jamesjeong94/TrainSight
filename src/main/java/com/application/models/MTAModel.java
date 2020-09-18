@@ -82,11 +82,11 @@ public class MTAModel {
                         int currentStopSequence = instance.getCurrentStopSequence();
                         int timeStamp = (int) instance.getTimestamp();
                         String stopID = instance.getStopId();
-
+                        System.out.println(instance);
                         if (currentStopSequence != 0 && timeStamp != 0) {
                             String tripId = instance.getTrip().getTripId();
                             String direction = tripId.contains("N") ? "N" : "S";
-                            CurrentVehiclePosition vpInstance = new CurrentVehiclePosition(timeStamp, stopID, currentStopSequence, direction);
+                            CurrentVehiclePosition vpInstance = new CurrentVehiclePosition(tripId, timeStamp, stopID, currentStopSequence, direction);
                             results.add(vpInstance);
                         }
                     }

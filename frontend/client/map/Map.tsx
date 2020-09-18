@@ -38,6 +38,7 @@ const Map: React.FC<MapProps> = ({
   const [markers, setMarkers] = useState<StopLatLng[]>([]);
   const [mapLoaded, changeMapLoad] = useState(false);
   const [zoom, setZoom] = useState(12)
+  const [currentInterval, setCurrentInterval] = useState<number | null>(null)
 
   const createMapOptions = () => {
     return {
@@ -45,10 +46,20 @@ const Map: React.FC<MapProps> = ({
     };
   };
 
+
   useEffect(() => {
     if (subwayLine !== '') {
       getStopsForSubwayLine(subwayLine);
       getCurrentPositionsForSubwayLine(subwayLine);
+      if (currentInterval !== null) {
+        window.clearInterval(currentInterval)
+        setCurrentInterval(null)
+      }
+      const refreshPositionInterval: number = window.setInterval(() => {
+        getCurrentPositionsForSubwayLine(subwayLine)
+        // console.log(`Refreshing ${subwayLine}`)
+      }, 2500)
+      setCurrentInterval(refreshPositionInterval)
     }
   }, [subwayLine]);
 
@@ -115,6 +126,7 @@ const Map: React.FC<MapProps> = ({
 
             return (
               <TrainMarker
+                key={index}
                 info={position}
                 lat={lat}
                 lng={lng}

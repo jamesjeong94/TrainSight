@@ -22,6 +22,7 @@ export type CurrentPositon = {
   direction: string;
   currentStopSequence: number;
   stopID: string;
+  tripID: string;
 };
 
 export type StopLatLng = {
@@ -29,7 +30,15 @@ export type StopLatLng = {
   lng: number;
 };
 
+export type TripInfoMap = {
+  [tripID: string]: CurrentPositon;
+};
+
 export type SubwayStopList = SubwayStop[];
+
+/*
+Actions
+*/
 
 export interface IGetStopsForSubwayLineAction
   extends Action<'GET_STOPS_FOR_SUBWAY_LINE'> {
@@ -41,14 +50,21 @@ export interface IGetCurrentPositionsForSubwayLineAction
   payload: CurrentPositionList;
 }
 
+export interface IGetTripsForSubwayLineAction
+  extends Action<'GET_TRIPS_FOR_SUBWAY_LINE'> {
+  payload: TripInfoMap;
+}
+
+export type MapActionTypes =
+  | IGetStopsForSubwayLineAction
+  | IGetCurrentPositionsForSubwayLineAction
+  | IGetTripsForSubwayLineAction;
+
 export type CurrentPositionList = CurrentPositon[];
 
 export interface IMapState {
   stops: SubwayStopList;
   stopsMap: SubwayStopMap;
   currentPositions: CurrentPositionList;
+  trips: TripInfoMap;
 }
-
-export type MapActionTypes =
-  | IGetStopsForSubwayLineAction
-  | IGetCurrentPositionsForSubwayLineAction;

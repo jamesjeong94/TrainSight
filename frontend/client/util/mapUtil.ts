@@ -1,4 +1,9 @@
-import { SubwayStopList } from '../map/MapTypes';
+import {
+  CurrentPositionList,
+  CurrentPositon,
+  SubwayStopList,
+  TripInfoMap,
+} from '../map/MapTypes';
 
 export const getLatLngFromStops = (stops: SubwayStopList) => {
   return stops.map((stop) => {
@@ -42,7 +47,9 @@ export const currentLatLng = (
   if (traveledDistance > dist) {
     traveledDistance = traveledDistance % dist;
   }
-  const ratio = traveledDistance / dist;
+  const ratio = Math.log(time) / Math.log(100);
+  // const ratio = traveledDistance / dist;
+  console.log(ratio);
   return {
     lat: lat2 + deltaLat * ratio,
     lng: lon2 + deltaLon * ratio,
@@ -60,4 +67,11 @@ export const getRelativeTimeFromSeconds = (time: number): string => {
   } else {
     return `a while ago`;
   }
+};
+
+export const createMapForTrips = (trips: CurrentPositionList): TripInfoMap => {
+  return trips.reduce((acc: TripInfoMap, curr) => {
+    acc[curr.tripID] = curr;
+    return acc;
+  }, {});
 };

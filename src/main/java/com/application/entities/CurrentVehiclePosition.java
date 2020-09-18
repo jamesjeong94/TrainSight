@@ -5,12 +5,14 @@ public class CurrentVehiclePosition {
     private String stop_id;
     private int current_stop_sequence;
     private String direction;
+    private String tripID;
 
-    public CurrentVehiclePosition(int timeStamp, String stop_id, int current_stop_sequence, String direction) {
+    public CurrentVehiclePosition(String tripID,int timeStamp, String stop_id, int current_stop_sequence, String direction) {
         this.timeStamp = timeStamp;
         this.stop_id = stop_id;
         this.current_stop_sequence = current_stop_sequence;
         this.direction = direction;
+        this.tripID = tripID;
     }
 
     public int getTimeStamp() {
@@ -26,6 +28,10 @@ public class CurrentVehiclePosition {
 
     public String getDirection() {
         return direction;
+    }
+
+    public String getTripID() {
+        return tripID;
     }
 }
 

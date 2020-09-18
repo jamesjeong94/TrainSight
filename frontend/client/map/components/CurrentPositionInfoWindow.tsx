@@ -6,6 +6,7 @@ import { CurrentPositon, SubwayStop } from '../MapTypes';
 interface CurrentPositionInfoWindowProps {
   info: CurrentPositon;
   currentStop?: SubwayStop;
+  nextStop?: SubwayStop;
   timeDiff: number;
 }
 
@@ -16,9 +17,9 @@ const CurrentPositionInfoWindow: React.FC<CurrentPositionInfoWindowProps> = ({ i
   return (
     <div className="infoWindow">
       <p>{JSON.stringify(info)}</p>
-      <p>Departed from {currentStop?.stopName}</p>
+      <p>Heading towards {currentStop?.stopName}</p>
+      <p>Departed {getRelativeTimeFromSeconds(timeDiff)}</p>
       <p>{direction}</p>
-      <p>{getRelativeTimeFromSeconds(timeDiff)}</p>
     </div>
   );
 };
